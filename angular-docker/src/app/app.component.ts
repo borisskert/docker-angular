@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {AppConfig} from "./env/app-config";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-docker';
+  constructor(private appConfig: AppConfig) {
+  }
+
+  get config() {
+    return this.appConfig.getConfig();
+  }
+
+  get keys() {
+    return this.appConfig.getKeys();
+  }
+
+  public getValue(key: string): string {
+    return this.appConfig.getValue(key);
+  }
 }

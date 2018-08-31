@@ -1,0 +1,20 @@
+version: '3.1'
+services:
+  angular-docker:
+    build: ./
+    image: local/angular-docker-example:latest
+    environment:
+    - APP_JOE_IS_THE_SMARTEST=das stimmt
+    - APP_AND_BORIS_IS_STILL_SMARTER=stimmt erstrecht
+    - APP_AHA=Kennst du Age Of Empires?
+    - APP_BALL=Kennst du unser D. Bällebad?
+    - APP_JSON={"this":{"is-a-json-test":{"to_proof":{"integer-value":10000,"another_integer-value":60000},"here-is_a_list":[{"a-string":"my string test","here-is-a-url":"http://localhost:8888/pop"}]}}}
+    - APP_BORIS=Einmal extern bitte
+    - THIS_WOULD_BE_IGNORED=Should not see me
+    networks:
+    - ng_network
+    ports:
+    - 8080:8080
+
+networks:
+  ng_network:
