@@ -1,4 +1,4 @@
-FROM adorsys/ci-frontend
+FROM adorsys/nginx
 
 COPY ./dist/ /opt/app-root/src/
 

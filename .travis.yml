@@ -1,0 +1,44 @@
+language: generic
+sudo: required
+
+services:
+  - docker
+
+addons:
+  apt:
+    packages:
+    - docker-ce
+
+git:
+  submodules: false
+
+env:
+  matrix:
+  - DOCKER_IMAGE="adorsys/angular-docker-example" DIR="${PWD}/angular-docker" ALIASES="latest"
+#  global:
+#  - secure: "oeTwv24/yjm/cfD20IiAZlsoG3i4+vF610g4WHZ45VjpkDK6Ryitf71Zx3d8hgUeVCqbzCc9znnnLvgcJXjSBCnHPONxguKOiAF0k7w9FOnrsRDP2r2L/Ww+McTuUJI3GZVbn1cNcAPn7m62irvKgbu1OB/OxT1lVIyyO1GRqCXDg4dzYwXV9zE1s8W49Y15CNedb3PTZI6CWPunT/vlk45qxwBvV4SfcXa8PO+X8V+8Ca4isDIZBuZCmQV+C3o2f5YHhpWSHZgYusEIAyB7QkVHdM+M5g8ub1m3Y0qWFlO6DAFaSwoiBAIsI9QQrDp2x9bKzU+rGNTftqbluWBTpKkHXI9mOKYsnusXZpFFHEVxHoPMYsQ0huGg60TVS1O44pwcGZjrAwkIJxrOtUTz4fwz55oN2Ggle0u0dLqOWws8UCnlM9fJFKcR01iBbiAYpNuoIa43GSkHeRT6qX58E02jZ3STbQFww3vUPQA/gnF6saQ64qLgvRFLNTcskl/hoctScLH7HN551MDyk+fVoSuBcgeGuYSCkh9yIhv91QhzJB9NI5wSM5ppKUWOsw1+1dg9sTzbhNS4pwTug/r+/s2mwqhtMZ8LEkEcNwkol6NSi/Ro3uKbj8eu3P92NnARF1aQSioVkGbW2I99mTh1l/o4Rd5V//DBkEiFNg35j+c="
+#  - secure: "ZUgtv2TorFXA15zoRaQCl6sDD3fz+fN9HlHGg25NlAgJKQnLySGF9ulg3/e16BZ0dYWZyBDMa5I5g+yXoS1nqLIjc+3uetbFyobdO51B5/5t6I+sLk7RBB/3z4lkodp7gwW6gZTk8pxawueRD7bZ6u6OhVQBGVuAxiVnI49Wgo0yifE+kQL8wZks0re1jHGipo7rtuWlgG5Mfxu9ykwpB8Gb/L+I5W+VfVsQUmyKoImjGccjd0wLWWPIKovkL0/xP2pFPYFoRyfL3C4fvPQTDur/0te6AyuhD6D/jKtH16h+u9Fm6lLjS94zDkGdUekScrNqagn9tfNsuTqybZ/Qk6gKTgW4bWWbaF5InK0kj1IzZFPeUm1tid+4g7KeLuy9VA8PmbuglhvliXAY2gHRRNb/iY0GjunSgAZCenUq1by8S3Z/Z28zZUQS/6Zl3wFTj3VnDdxsbfXYvF+DGdhP4VL07XrxSCLuBpLxg7GjdeGd3Cm5TNSAl98RgvsGU070MGtE6U9bIAoN+eukVdnxyboHHlf6WmMpwZqM1D16Nk1+30frGeRT/t8jvwQc99cXVNH03Y4Pa5d4jAFGRqOfNSiZamjFvtEPbvfu6Zu6bdklFILYW2Mv8jsiV7EgQ2mofsV4umbgti9V2cVKoMtkXbfs6icDkn3jmbMFI5hYV1M="
+
+script:
+  - chmod 777 -R ${DIR}
+  - docker run --rm -v ${DIR}:/opt/src --entrypoint="" -w /opt/src adorsys/ci-build:latest /opt/src/docker/compile/build.cmd.bash
+  - docker build --pull --tag ${DOCKER_IMAGE} ${DIR}
+
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: >-
+    echo "${DOCKER_HUB_PASSWORD}" | docker login --username "${DOCKER_HUB_USER}" --password-stdin
+    && echo push to ${DOCKER_IMAGE}:${TRAVIS_TAG}
+    && docker tag "${DOCKER_IMAGE}" "${DOCKER_IMAGE}:${TRAVIS_TAG}"
+    && docker push "${DOCKER_IMAGE}:${TRAVIS_TAG}"
+    && if [ ! -z ${ALIASES+x} ]; then
+    echo "Pushing tag aliases ${ALIASES}";
+    docker tag "${DOCKER_IMAGE}:${TRAVIS_TAG}" "${DOCKER_IMAGE}:${ALIASES}";
+    docker push "${DOCKER_IMAGE}:${ALIASES}";
+    fi
+  on:
+    tags: true
+    # matches: vX.Y.Z, vX.Y.Z-A, vX.Y.Z-RCA, vX.Y.Z-A-B.C.D, vX.Y.Z-A-B.C.D-E, vX.Y.Z-RCA-B.C.D-E
+    condition: "$TRAVIS_TAG =~ ^v([[:digit:]]+\\.)+[[:digit:]]+(-(RC)?[[:digit:]]+)?(-([[:digit:]]+\\.)+[[:digit:]]+(-[[:digit:]]+)?)?$"
+    repo: adorsys/example-angular

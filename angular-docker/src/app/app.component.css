@@ -1,0 +1,20 @@
+h1{
+  text-align: left;
+}
+.row{
+  display: flex;
+  width: 100%;
+}
+.row:nth-child(2n) {
+  background: #eee;
+}
+
+.column {
+  text-align: left;
+  width: 50%;
+  padding: 10px 20px;
+}
+
+.column.bold{
+  font-weight:bold;
+}
