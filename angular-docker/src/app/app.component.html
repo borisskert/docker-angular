@@ -1,0 +1,9 @@
+<div style="text-align:center">
+  <p>json:</p>
+  {{config | json }}
+  <p>key/values:</p>
+  <div *ngFor="let k of keys">
+    <div>{{ k }}</div>
+    <div>{{ getValue(k) }}</div>
+  </div>
+</div>

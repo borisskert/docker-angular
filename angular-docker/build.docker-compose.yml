@@ -1,0 +1,11 @@
+version: '3.1'
+services:
+  build-angular-docker:
+    image: adorsys/ci-build:latest
+    volumes:
+      - ./:/opt/src
+      - ./.docker-build/node_modules:/opt/src/node_modules
+    working_dir: /opt/src
+    entrypoint: ""
+    command:
+      - /opt/src/docker/compile/build.cmd.bash
