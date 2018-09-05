@@ -33,3 +33,7 @@ $ npm run start
 ```bash
 $ docker-compose down --remove-orphans && docker-compose up --build
 ```
+
+## Further information
+
+[Repo at docker hub](https://hub.docker.com/r/adorsys/angular-docker-example/)
