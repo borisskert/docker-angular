@@ -36,4 +36,6 @@ $ docker-compose down --remove-orphans && docker-compose up --build
 
 ## Further information
 
-[Repo at docker hub](https://hub.docker.com/r/adorsys/angular-docker-example/)
+* [Repo at docker hub](https://hub.docker.com/r/adorsys/angular-docker-example/)
+* [Source for base docker image](https://github.com/adorsys/dockerhub-pipeline-images/tree/master/nginx)
+* [Repo at docker hub](https://hub.docker.com/r/adorsys/nginx/)
