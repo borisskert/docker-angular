@@ -7,7 +7,7 @@ echo '{' > ${FILE_NAME}
 # convert all env variables to JSON (consider only with prefix)
 # https://stackoverflow.com/a/25765360
 while IFS='=' read -r name value ; do
-  if [[ ${name} == "${PREFIX:-APP_}"* ]]; then
+  if [[ ${name} == "${PREFIX:-NG_}"* ]]; then
     printf '  "%s": "%s",\n' "${name}" "${value//\"/\\\"}" >> ${FILE_NAME}
   fi
 done < <(env)
