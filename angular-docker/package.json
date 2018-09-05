@@ -1,6 +1,6 @@
 {
   "name": "angular-docker",
-  "version": "0.2.0",
+  "version": "0.3.0-SNAPSHOT",
   "scripts": {
     "ng": "./node_modules/@angular/cli/bin/ng",
     "start": "./node_modules/@angular/cli/bin/ng serve --configuration=local",
