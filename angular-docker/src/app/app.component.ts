@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import {AppConfig} from "./env/app-config";
+import { AppConfig } from './env/app-config';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: [ './app.component.css' ]
 })
 export class AppComponent {
   constructor(private appConfig: AppConfig) {
