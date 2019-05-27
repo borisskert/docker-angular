@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import {AppConfig} from "./env/app-config";
-import {HttpClientModule} from "@angular/common/http";
+import { AppConfig } from './env/app-config';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,9 +17,9 @@ import {HttpClientModule} from "@angular/common/http";
     AppConfig, {
       provide: APP_INITIALIZER,
       useFactory: (config: AppConfig) => () => config.load(),
-      deps: [AppConfig], multi: true
-  }
+      deps: [ AppConfig ], multi: true
+    }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {}
